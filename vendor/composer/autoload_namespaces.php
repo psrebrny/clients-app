@@ -17,7 +17,6 @@ return array(
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
     'Symfony\\Component\\Locale\\' => array($vendorDir . '/symfony/locale'),
     'Symfony\\Component\\Intl\\' => array($vendorDir . '/symfony/intl'),
-    'Symfony\\Component\\Icu\\' => array($vendorDir . '/symfony/icu'),
     'Symfony\\Component\\HttpKernel\\' => array($vendorDir . '/symfony/http-kernel'),
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'Symfony\\Component\\Form\\' => array($vendorDir . '/symfony/form'),
