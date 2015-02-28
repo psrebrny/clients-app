@@ -1,0 +1,23 @@
+{
+  "name": "clients-app",
+  "version": "1.0.0",
+  "description": "clients-app AngularJS app\r =========================",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silver029/clients-app.git"
+  },
+  "author": "Paweł Srebrny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silver029/clients-app/issues"
+  },
+  "homepage": "https://github.com/silver029/clients-app",
+  "dependencies": {
+    "angular": "^1.4.0-beta.5",
+    "bootstrap": "^3.3.2"
+  }
+}
