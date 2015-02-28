@@ -64,34 +64,34 @@
                     <thead>
                         <tr>
                             <th class="text-center" style="width: 70px;">
-                                <span class="sort-btn">
+                               <span ng-click="changeOrder('id')" class="sort-btn">
                                     ID
-                                    <i class="glyphicon glyphicon-chevron-up"></i>
+                                    <i ng-show="isOrderedBy('id')" ng-class="{'glyphicon-chevron-up': orderByDir, 'glyphicon-chevron-down': !orderByDir}" class="glyphicon"></i>
                                 </span>
                             </th>
                             <th>
-                                <span class="sort-btn">
+                               <span ng-click="changeOrder('company_name')" class="sort-btn">
                                     Nazwa firmy
-                                    <i class="glyphicon glyphicon-chevron-down"></i>
+                                    <i ng-show="isOrderedBy('company_name')" ng-class="{'glyphicon-chevron-up': orderByDir, 'glyphicon-chevron-down': !orderByDir}" class="glyphicon"></i>
                                 </span>
                             </th>
                             <th class="hidden-xs">
-                                <span class="sort-btn">
+                               <span ng-click="changeOrder('sector_name')" class="sort-btn">
                                     Branża
-                                    <i class="glyphicon glyphicon-chevron-up"></i>
+                                    <i ng-show="isOrderedBy('sector_name')" ng-class="{'glyphicon-chevron-up': orderByDir, 'glyphicon-chevron-down': !orderByDir}" class="glyphicon"></i>
                                 </span>
                             </th>
                             <th class="hidden-xs">
-                                <span class="sort-btn">
+                               <span ng-click="changeOrder('contact_name')" class="sort-btn">
                                     Opiekun klienta
-                                    <i class="glyphicon glyphicon-chevron-up"></i>
+                                    <i ng-show="isOrderedBy('contact_name')" ng-class="{'glyphicon-chevron-up': orderByDir, 'glyphicon-chevron-down': !orderByDir}" class="glyphicon"></i>
                                 </span>
                             </th>
                             <th class="text-center">Akcje</th>
                         </tr>
                     </thead>
                     <tbody class="no-border">
-                         <tr ng-repeat="client in clients">
+                         <tr ng-repeat="client in clients | orderBy: orderByColumn : orderByDir">
                             <td class="text-center">{{client.id}}</td>
                             <td>{{client.company_name}}</td>
                             <td class="hidden-xs">{{client.sector_name}}</td>

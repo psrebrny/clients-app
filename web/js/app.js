@@ -30,12 +30,30 @@
 
         $scope.clients = [];
 
-
+        $scope.orderByColumn = 'id';
+        $scope.orderByDir = false;
 
         clients.getClients(function(clients){
             $scope.clients = clients
             console.log($scope.clients)
         })
+
+        $scope.changeOrder = function(columnName){
+
+            if( $scope.orderByColumn == columnName){
+                $scope.orderByDir = !$scope.orderByDir;
+            }else{
+                $scope.orderByColumn = columnName;
+                $scope.orderByDir = false;
+            }
+        };
+
+        $scope.isOrderedBy = function(columnName){
+            return  ($scope.orderByColumn == columnName);
+        };
+        $scope.isOrderedReverse = function(){
+            return !$scope.orderByDir;
+        }
 
     }]);
 
