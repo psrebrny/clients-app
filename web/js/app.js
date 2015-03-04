@@ -26,17 +26,29 @@
 
     }]);
 
-    app.controller('clientsListCtrl', ['$scope', 'clients', function($scope, clients){
+    app.controller('clientsListCtrl', ['$scope', 'clients', 'users', 'sectors', function($scope, clients, users, sectors){
 
         $scope.clients = [];
+        $scope.users = [];
+        $scope.sectors = [];
 
         $scope.orderByColumn = 'id';
         $scope.orderByDir = false;
 
-        clients.getClients(function(clients){
-            $scope.clients = clients
-            console.log($scope.clients)
-        })
+        $scope.filterBy = {};
+        $scope.$watch($scope.filterBy, function(){
+            console.log($scope);
+        });
+        clients.getClients(function(results){
+            $scope.clients = results;
+        });
+        users.getUsers(function(results){
+            $scope.users = results;
+        });
+
+        sectors.getSectors(function(results){
+            $scope.sectors = results;
+        });
 
         $scope.changeOrder = function(columnName){
 
@@ -53,7 +65,7 @@
         };
         $scope.isOrderedReverse = function(){
             return !$scope.orderByDir;
-        }
+        };
 
     }]);
 
