@@ -4,7 +4,7 @@
 
 (function(){
 
-    var app = angular.module('clientsApp', ['ui.router', 'clientsService']);
+    var app = angular.module('clientsApp', ['ui.router', 'httpService']);
 
     app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
 
@@ -14,6 +14,11 @@
                 url: "/clients",
                 templateUrl: "views/clients-list.html",
                 controller: 'clientsListCtrl'
+            })
+            .state('client-details', {
+                url: "/client-details/:clientId",
+                templateUrl: "views/client-details.html",
+                controller: 'clientDetailsCtrl'
             })
             .state('sectors', {
                 url: "/sectors",
@@ -68,5 +73,22 @@
         };
 
     }]);
+
+    app.controller('clientDetailsCtrl',['$scope', '$stateParams', 'clients', function($scope, $stateParams, clients){
+        $scope.user = {};
+        $scope.userNotFound = false;
+
+        clients.getClient($stateParams.clientId,
+            function(data){
+                $scope.user = data;
+                console.log($scope.user)
+            },
+            function(data, status){
+                if(404 == status){
+                    $scope.userNotFound = true;
+                }
+            }
+        )
+    }])
 
 })();

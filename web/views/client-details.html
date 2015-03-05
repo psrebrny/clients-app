@@ -1,17 +1,17 @@
 
 <div class="row top-menu">
     <div class="col-xs-12 clearfix">
-        <a class="top-menu-link" href="#"><i class="fa fa-angle-double-left"></i> Powrót do listy klientów</a>
+        <a class="top-menu-link" href="#" ui-sref="clients"><i class="fa fa-angle-double-left"></i> Powrót do listy klientów</a>
 
-        <a href="#" class="btn btn-danger pull-right">Usuń tego klienta</a>
+        <a href="#" ng-hide="userNotFound" class="btn btn-danger pull-right">Usuń tego klienta</a>
     </div>
 </div>
 
-<div class="alert alert-danger">
+<div class="alert alert-danger" ng-show="userNotFound">
     <strong>Ups..</strong> Taki użytkownik nie został znaleziony
 </div>
 
-<div class="row">
+<div class="row" ng-hide="userNotFound">
     <div class="col-xs-12 col-lg-6">
         <div class="flat-panel">
             <div class="flat-panel-header">

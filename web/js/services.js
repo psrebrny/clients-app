@@ -3,7 +3,7 @@
  */
 (function(){
 
-    var app = angular.module('clientsService',[]);
+    var app = angular.module('httpService',[]);
 
     app.factory('clients',['$http',function($http){
         var _api = {};
@@ -16,6 +16,17 @@
                         callback(data)
                     })
             };
+
+        _api.getClient = function(clientId, succes, error){
+            succes = succes ||function(){};
+            error = error ||function(){};
+
+            $http.get('api.php/client/'+clientId)
+                .success(function(data){
+                    succes(data)
+                })
+                .error(error);
+        };
 
         return _api;
     }]);
