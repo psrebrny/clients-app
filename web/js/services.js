@@ -8,24 +8,31 @@
     app.factory('clients',['$http',function($http){
         var _api = {};
 
-            _api.getClients = function(callback){
-                callback = callback ||function(){};
+        _api.getClients = function(callback){
+            callback = callback ||function(){};
 
-                $http.get('api.php/clients')
-                    .success(function(data){
-                        callback(data)
-                    })
-            };
+            $http.get('api.php/clients')
+                .success(function(data){
+                    callback(data)
+                })
+        };
 
-        _api.getClient = function(clientId, succes, error){
-            succes = succes ||function(){};
+        _api.getClient = function(clientId, success, error){
+            success = success ||function(){};
             error = error ||function(){};
 
             $http.get('api.php/client/'+clientId)
                 .success(function(data){
-                    succes(data)
+                    success(data)
                 })
                 .error(error);
+        };
+
+        _api.updateClient = function(clientId, clientData, success){
+            success = success || function(){};
+
+            $http.put('api.php/client/'+clientId, clientData)
+                .success(success);
         };
 
         return _api;

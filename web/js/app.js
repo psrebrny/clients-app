@@ -4,7 +4,7 @@
 
 (function(){
 
-    var app = angular.module('clientsApp', ['ui.router', 'httpService']);
+    var app = angular.module('clientsApp', ['ui.router', 'httpService', 'ngMessages']);
 
     app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
 
@@ -41,9 +41,6 @@
         $scope.orderByDir = false;
 
         $scope.filterBy = {};
-        $scope.$watch($scope.filterBy, function(){
-            console.log($scope);
-        });
         clients.getClients(function(results){
             $scope.clients = results;
         });
@@ -74,21 +71,47 @@
 
     }]);
 
-    app.controller('clientDetailsCtrl',['$scope', '$stateParams', 'clients', function($scope, $stateParams, clients){
-        $scope.user = {};
+    app.controller('clientDetailsCtrl',['$scope', '$stateParams', 'clients', 'users', 'sectors', '$timeout', function($scope, $stateParams, clients, users, sectors, $timeout){
+        $scope.client = {};
+        $scope.users = [];
+        $scope.sectors = [];
         $scope.userNotFound = false;
+        $scope.showSaveClientForMsg = false;
 
         clients.getClient($stateParams.clientId,
             function(data){
-                $scope.user = data;
-                console.log($scope.user)
+                $scope.client = data;
+                console.log($scope.client)
             },
             function(data, status){
                 if(404 == status){
                     $scope.userNotFound = true;
                 }
             }
-        )
-    }])
+        );
+
+        users.getUsers(function(results){
+            $scope.users = results;
+        });
+
+        sectors.getSectors(function(results){
+            $scope.sectors = results;
+        });
+
+        $scope.saveClientData = function(){
+
+            if($scope.clientForm.$invalid) return;
+
+            clients.updateClient($scope.client.id, $scope.client, function(data){
+                console.log(data);
+                $scope.showSaveClientForMsg = true;
+
+                $timeout(function(){
+                    $scope.showSaveClientForMsg = false;
+                },5000)
+            });
+
+        }
+    }]);
 
 })();
