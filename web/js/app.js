@@ -71,17 +71,30 @@
 
     }]);
 
-    app.controller('clientDetailsCtrl',['$scope', '$stateParams', 'clients', 'users', 'sectors', '$timeout', function($scope, $stateParams, clients, users, sectors, $timeout){
+    app.controller('clientDetailsCtrl',['$scope', '$stateParams', 'clients', 'users', 'sectors', '$timeout', 'timeline', function($scope, $stateParams, clients, users, sectors, $timeout, timeline){
         $scope.client = {};
-        $scope.users = [];
-        $scope.sectors = [];
+        $scope.users = {};
+        $scope.sectors = {};
+        $scope.timeline = {};
+        //$scope.timeline.helper = {}
         $scope.userNotFound = false;
         $scope.showSaveClientForMsg = false;
-
+        //console.log($scope.timelineHelper)
         clients.getClient($stateParams.clientId,
             function(data){
                 $scope.client = data;
-                console.log($scope.client)
+                console.log($scope.client);
+
+                timeline.getClientTimeline($scope.client.id, function(reults){
+                    $scope.timeline = reults;
+                    angular.forEach($scope.timeline, function(value, key){
+
+                        $scope.timeline[key].helper = timeline.timelineHelper($scope.timeline[key].contact_type);
+                    })
+
+                    console.log( $scope.timeline);
+                });
+
             },
             function(data, status){
                 if(404 == status){
@@ -112,6 +125,9 @@
             });
 
         }
+
+
+
     }]);
 
 })();

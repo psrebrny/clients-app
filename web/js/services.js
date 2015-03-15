@@ -69,4 +69,56 @@
         return _api;
     }]);
 
+    app.factory('timeline', ['$http',function($http){
+        var _api = {};
+
+        var helperOptions = {
+            phone: {
+                color: 'blue',
+                message: 'telefon do klienta'
+            },
+            'envelope-o': {
+                color: 'green',
+                message: 'wysyłka maila do klienta'
+            },
+            users: {
+                color: 'purple',
+                message: 'spotkanie z klientem'
+            },
+            'file-text-o': {
+                color: 'red',
+                message: 'podpisanie umowy z klientem'
+            }
+        };
+
+        _api.timelineHelper = function(contactType){
+
+            return helperOptions[contactType];
+
+        };
+
+        var parseTimeline = function(timeline){
+            angular.forEach(timeline, function(element, index){
+                element['contact_date'] = new Date(element['contact_date'])
+            });
+
+            return timeline;
+        };
+
+        _api.getClientTimeline = function(clientId, success){
+            success = success || function(){}
+
+            $http.get('api.php/client/'+clientId+'/timeline')
+                .success(function(timeline){
+
+                    timeline = parseTimeline(timeline);
+                    success(timeline);
+
+                });
+        };
+
+
+        return _api;
+    }])
+
 })();
