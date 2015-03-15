@@ -75,24 +75,25 @@
         $scope.client = {};
         $scope.users = {};
         $scope.sectors = {};
+
         $scope.timeline = {};
-        //$scope.timeline.helper = {}
+        $scope.timelineEvent = {};
+        $scope.eventTypes = timeline.eventTypes;
+        $scope.newEventCreatedMsg = false;
+
         $scope.userNotFound = false;
         $scope.showSaveClientForMsg = false;
-        //console.log($scope.timelineHelper)
+
         clients.getClient($stateParams.clientId,
             function(data){
                 $scope.client = data;
-                console.log($scope.client);
 
                 timeline.getClientTimeline($scope.client.id, function(reults){
                     $scope.timeline = reults;
                     angular.forEach($scope.timeline, function(value, key){
 
                         $scope.timeline[key].helper = timeline.timelineHelper($scope.timeline[key].contact_type);
-                    })
-
-                    console.log( $scope.timeline);
+                    });
                 });
 
             },
@@ -124,9 +125,24 @@
                 },5000)
             });
 
+        };
+
+        $scope.addEventTimeline = function(){
+            if($scope.eventForm.$invalid) return;
+
+            timeline.addTimelineEvent($scope.client.id, $scope.timelineEvent, function(timeline){
+                $scope.timeline = timeline;
+                $scope.timelineEvent = {};
+
+                $scope.newEventCreatedMsg = true;
+                $scope.eventForm.$setUntouched();
+                $scope.eventForm.$submitted = false;
+
+                $timeout(function(){
+                    $scope.newEventCreatedMsg = false;
+                },5000)
+            })
         }
-
-
 
     }]);
 

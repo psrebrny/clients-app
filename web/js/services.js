@@ -91,6 +91,25 @@
             }
         };
 
+        _api.eventTypes = [
+            {
+                value: 'phone',
+                name: 'Kontakt telefoniczny'
+            },
+            {
+                value: 'envelope-o',
+                name: 'Kontakt mailowy'
+            },
+            {
+                value: 'users',
+                name: 'Spotkanie'
+            },
+            {
+                value: 'file-text-o',
+                name: 'Podpisanie umowy'
+            }
+        ];
+
         _api.timelineHelper = function(contactType){
 
             return helperOptions[contactType];
@@ -106,7 +125,7 @@
         };
 
         _api.getClientTimeline = function(clientId, success){
-            success = success || function(){}
+            success = success || function(){};
 
             $http.get('api.php/client/'+clientId+'/timeline')
                 .success(function(timeline){
@@ -117,6 +136,17 @@
                 });
         };
 
+        _api.addTimelineEvent = function(clientId, eventData, success){
+            success = success || function(){};
+
+            $http.post('api.php/client/'+clientId+'/timeline', eventData)
+                .success(function(data){
+
+                    var timeline = parseTimeline(data.timeline);
+                    success(timeline);
+
+                })
+        };
 
         return _api;
     }])

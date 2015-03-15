@@ -145,12 +145,12 @@
             </div>
             <div class="flat-panel-body">
 
-                <form class="form-horizontal">
-                    <div class="alert alert-success">
+                <form name="eventForm" class="form-horizontal" ng-submit="addEventTimeline()" novalidate>
+                    <div ng-show="newEventCreatedMsg" class="alert alert-success">
                         <strong>Sukces!</strong> Nowe wydarzenie zostało dodane do osi czasu!
                     </div>
 
-                    <div class="alert alert-warning">
+                    <div ng-show="eventForm.$submitted && eventForm.$invalid" class="alert alert-warning">
                         <strong>Uwaga!</strong> Popraw błędy formularza!
                     </div>
 
@@ -158,13 +158,15 @@
                         <label for="contact-user" class="col-lg-2 col-sm-2 col-xs-12 control-label">Kto się kontaktował</label>
 
                         <div class="col-lg-10 col-sm-10 col-xs-12">
-                            <select id="contact-user" class="form-control">
-                                <option value=""></option>
+                            <select id="contact-user" name="contactUser" ng-model="timelineEvent.user_id" class="form-control" required>
+                                <option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</option>
                             </select>
 
                             <i class="glyphicon glyphicon-asterisk"></i>
 
-                            <span class="help-block">Wybierz osobę, która się kontaktowała</span>
+                            <div ng-messages="eventForm.contactUser.$error" ng-show="eventForm.$submitted || eventForm.contactUser.$touched">
+                                <span ng-message="required" class="help-block">Wybierz osobę, która się kontaktowała</span>
+                            </div>
                         </div>
                     </div>
 
@@ -172,13 +174,15 @@
                         <label for="contact-type" class="col-lg-2 col-sm-2 col-xs-12 control-label">Typ kontaktu</label>
 
                         <div class="col-lg-10 col-sm-10 col-xs-12">
-                            <select id="contact-type" class="form-control">
-                                <option value=""></option>
+                            <select id="contact-type" name="contactType" ng-model="timelineEvent.contact_type" class="form-control" required>
+                                <option ng-repeat="type in eventTypes" value="{{type.value}}">{{type.name}}</option>
                             </select>
 
                             <i class="glyphicon glyphicon-asterisk"></i>
 
-                            <span class="help-block">Musisz wybrać typ kontaktu</span>
+                            <div ng-messages="eventForm.contactType.$error" ng-show="eventForm.$submitted || eventForm.contactType.$touched">
+                                <span ng-message="required" class="help-block">Musisz wybrać typ kontaktu</span>
+                            </div>
                         </div>
                     </div>
 
@@ -186,12 +190,14 @@
                         <label for="contact-date" class="col-lg-2 col-sm-2 col-xs-12 control-label required">Data kontaktu</label>
 
                         <div class="col-lg-10 col-sm-10 col-xs-12">
-                            <input type="text" id="contact-date" class="form-control" placeholder="rrrr-mm-dd hh:mm:ss">
+                            <input type="text" id="contact-date" name="contactDate" ng-model="timelineEvent.contact_date" class="form-control" placeholder="rrrr-mm-dd hh:mm:ss" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}">
 
                             <i class="glyphicon glyphicon-asterisk"></i>
 
-                            <span class="help-block">Podaj danę kontaktu</span>
-                            <span class="help-block">Data musi być w formacie rrrr-mm-dd hh:mm:ss</span>
+                            <div ng-messages="eventForm.contactDate.$error" ng-show="eventForm.$submitted || eventForm.contactDate.$touched">
+                                <span ng-message="required" class="help-block">Podaj danę kontaktu</span>
+                                <span ng-message="pattern" class="help-block">Data musi być w formacie rrrr-mm-dd hh:mm:ss</span>
+                            </div>
                         </div>
                     </div>
 
@@ -199,12 +205,14 @@
                         <label for="event-notes" class="col-lg-2 col-sm-2 col-xs-12 control-label required">Notatki</label>
 
                         <div class="col-lg-10 col-sm-10 col-xs-12">
-                            <textarea id="event-notes" class="form-control" placeholder="np. ustalenia, potrzeby, kryteria decyzyjne"></textarea>
+                            <textarea id="event-notes" name="eventNotes" ng-model="timelineEvent.notes" class="form-control" placeholder="np. ustalenia, potrzeby, kryteria decyzyjne" ng-maxlength="500" required></textarea>
 
                             <i class="glyphicon glyphicon-asterisk"></i>
 
-                            <span class="help-block">Notatka jest wymagana</span>
-                            <span class="help-block">Notatka nie może mieć więcej niż 500 znaków</span>
+                            <div ng-messages="eventForm.eventNotes.$error" ng-show="eventForm.$submitted || eventForm.eventNotes.$touched">
+                                <span ng-message="required" class="help-block">Notatka jest wymagana</span>
+                                <span ng-message="maxlength" class="help-block">Notatka nie może mieć więcej niż 500 znaków</span>
+                            </div>
                         </div>
                     </div>
 
