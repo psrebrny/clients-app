@@ -35,6 +35,24 @@
                 .success(success);
         };
 
+        _api.saveNewClient = function(clientData, success){
+            success = success || function(){};
+            //console.log(clientData)
+            $http.post('api.php/client', clientData)
+                .success(function(data){
+
+                    success(data.client);
+
+                })
+        };
+
+        _api.deleteClient = function(clientId, success){
+            success = success || function(){};
+
+            $http.delete('api.php/client/'+clientId)
+                .success(success);
+        };
+
         return _api;
     }]);
 

@@ -58,9 +58,9 @@ class DataProvider {
         return true;
     }
 
-    public function saveNewClient($data)
+    public function saveNewClient($insertData)
     {
-        unset($data['id']);
+        unset($insertData['id']);
 
         $result = $this->db->insert('clients', $insertData);
 

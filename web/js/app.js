@@ -71,7 +71,7 @@
 
     }]);
 
-    app.controller('clientDetailsCtrl',['$scope', '$stateParams', 'clients', 'users', 'sectors', '$timeout', 'timeline', function($scope, $stateParams, clients, users, sectors, $timeout, timeline){
+    app.controller('clientDetailsCtrl',['$scope', '$stateParams', 'clients', 'users', 'sectors', '$timeout', 'timeline', '$state', function($scope, $stateParams, clients, users, sectors, $timeout, timeline, $state){
         $scope.client = {};
         $scope.users = {};
         $scope.sectors = {};
@@ -84,25 +84,30 @@
         $scope.userNotFound = false;
         $scope.showSaveClientForMsg = false;
 
-        clients.getClient($stateParams.clientId,
-            function(data){
-                $scope.client = data;
+        var timeLineAddHelper = function(){
+            angular.forEach($scope.timeline, function(value, key) {
+                $scope.timeline[key].helper = timeline.timelineHelper($scope.timeline[key].contact_type);
+            });
+        };
+        if('new' !== $stateParams.clientId){
+            clients.getClient($stateParams.clientId,
+                function(data){
+                    $scope.client = data;
 
-                timeline.getClientTimeline($scope.client.id, function(reults){
-                    $scope.timeline = reults;
-                    angular.forEach($scope.timeline, function(value, key){
-
-                        $scope.timeline[key].helper = timeline.timelineHelper($scope.timeline[key].contact_type);
+                    timeline.getClientTimeline($scope.client.id, function(reults){
+                        $scope.timeline = reults;
+                        timeLineAddHelper()
                     });
-                });
 
-            },
-            function(data, status){
-                if(404 == status){
-                    $scope.userNotFound = true;
+                },
+                function(data, status){
+                    if(404 == status){
+                        $scope.userNotFound = true;
+                    }
                 }
-            }
-        );
+            );
+        }
+
 
         users.getUsers(function(results){
             $scope.users = results;
@@ -116,22 +121,32 @@
 
             if($scope.clientForm.$invalid) return;
 
-            clients.updateClient($scope.client.id, $scope.client, function(data){
-                console.log(data);
-                $scope.showSaveClientForMsg = true;
+            if(!$scope.client.id){
 
-                $timeout(function(){
-                    $scope.showSaveClientForMsg = false;
-                },5000)
-            });
+                clients.saveNewClient($scope.client, function(client){
+                    console.log( client);
+                    $state.go('client-details',{clientId : client.id})
 
+                })
+
+            }else{
+                clients.updateClient($scope.client.id, $scope.client, function(data){
+                    console.log(data);
+                    $scope.showSaveClientForMsg = true;
+
+                    $timeout(function(){
+                        $scope.showSaveClientForMsg = false;
+                    },5000)
+                });
+            }
         };
 
         $scope.addEventTimeline = function(){
             if($scope.eventForm.$invalid) return;
 
-            timeline.addTimelineEvent($scope.client.id, $scope.timelineEvent, function(timeline){
-                $scope.timeline = timeline;
+            timeline.addTimelineEvent($scope.client.id, $scope.timelineEvent, function(timelineEvents){
+                $scope.timeline = timelineEvents;
+                timeLineAddHelper();
                 $scope.timelineEvent = {};
 
                 $scope.newEventCreatedMsg = true;
@@ -142,6 +157,18 @@
                     $scope.newEventCreatedMsg = false;
                 },5000)
             })
+        }
+
+        $scope.deleteClient = function(){
+            if(!$scope.client.id) return;
+
+            if(!confirm('Czy napewno chcesz usunąć tego klienta')) return;
+
+            clients.deleteClient($scope.client.id, function(){
+
+               alert('Klient został poprawnie usunięty')
+                $state.go('clients')
+            });
         }
 
     }]);
