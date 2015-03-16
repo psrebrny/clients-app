@@ -27,7 +27,7 @@
     <div class="col-xs-12">
         <div class="flat-panel">
             <div class="flat-panel-header">
-                <h3 class="flat-panel-heading">Lista branz</h3>
+                <h3 class="flat-panel-heading">{{ listHeading }}</h3>
             </div>
             <div class="flat-panel-body">
                 <table class="no-border table table-striped table-hover">
@@ -38,9 +38,9 @@
                         </tr>
                     </thead>
                     <tbody class="no-border">
-                        <tr ng-repeat="sector in sectors  | filter: filterBy">
-                            <td class="text-center">{{sector.id}}</td>
-                            <td>{{sector.name}}</td>
+                        <tr ng-repeat="item in items  | filter: filterBy">
+                            <td class="text-center">{{item.id}}</td>
+                            <td>{{item.name}}</td>
                         </tr>
                     </tbody>
                 </table>

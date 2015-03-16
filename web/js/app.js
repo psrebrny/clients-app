@@ -22,12 +22,13 @@
             })
             .state('sectors', {
                 url: "/sectors",
-                templateUrl: "views/sectors-list.html",
+                templateUrl: "views/simple-list.html",
                 controller: 'sectorsCtrl'
             })
             .state('users', {
                 url: "/users",
-                templateUrl: "views/users-list.html"
+                templateUrl: "views/simple-list.html",
+                controller: 'usersCtrl'
             })
 
     }]);
@@ -175,12 +176,22 @@
     }]);
 
     app.controller('sectorsCtrl', function($scope, sectors){
-        $scope.sectors = [];
+        $scope.items = [];
         $scope.filterBy = {};
+        $scope.listHeading = "Lista Branz";
 
         sectors.getSectors(function(results){
-            $scope.sectors = results;
-            console.log($scope.sectors);
+            $scope.items = results;
+        });
+    });
+
+    app.controller('usersCtrl', function($scope, users){
+        $scope.items = [];
+        $scope.filterBy = {};
+        $scope.listHeading = "Lista Pracowników";
+
+        users.getUsers(function(results){
+            $scope.items = results;
         });
     })
 
