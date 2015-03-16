@@ -12,7 +12,7 @@
                         <label for="filter-by-name" class="col-sm-3 col-xs-12 control-label">Wyszukaj po nazwie</label>
 
                         <div class="col-sm-9 col-xs-12">
-                            <input id="filter-by-name" type="text" class="form-control">
+                            <input ng-model="filterBy.name" id="filter-by-name" type="text" class="form-control">
                         </div>
                     </div>
 
@@ -38,25 +38,9 @@
                         </tr>
                     </thead>
                     <tbody class="no-border">
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Sklep internetowy</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Wydawnictwo</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Producent odzieży</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Producent suplementów</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td>Agencja reklamowa</td>
+                        <tr ng-repeat="sector in sectors  | filter: filterBy">
+                            <td class="text-center">{{sector.id}}</td>
+                            <td>{{sector.name}}</td>
                         </tr>
                     </tbody>
                 </table>

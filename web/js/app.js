@@ -22,7 +22,8 @@
             })
             .state('sectors', {
                 url: "/sectors",
-                templateUrl: "views/sectors-list.html"
+                templateUrl: "views/sectors-list.html",
+                controller: 'sectorsCtrl'
             })
             .state('users', {
                 url: "/users",
@@ -157,7 +158,7 @@
                     $scope.newEventCreatedMsg = false;
                 },5000)
             })
-        }
+        };
 
         $scope.deleteClient = function(){
             if(!$scope.client.id) return;
@@ -172,5 +173,15 @@
         }
 
     }]);
+
+    app.controller('sectorsCtrl', function($scope, sectors){
+        $scope.sectors = [];
+        $scope.filterBy = {};
+
+        sectors.getSectors(function(results){
+            $scope.sectors = results;
+            console.log($scope.sectors);
+        });
+    })
 
 })();

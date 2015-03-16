@@ -37,12 +37,9 @@
 
         _api.saveNewClient = function(clientData, success){
             success = success || function(){};
-            //console.log(clientData)
             $http.post('api.php/client', clientData)
                 .success(function(data){
-
                     success(data.client);
-
                 })
         };
 
