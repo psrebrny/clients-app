@@ -21,7 +21,7 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body>
+    <body ng-controller="mainCtrl">
 
         <div id="outer-wrapper">
             <div id="sidebar">
@@ -34,19 +34,19 @@
                     </div>
                     <nav class="sidebar-navigation">
                         <ul>
-                            <li class="active">
+                            <li ng-class="{active: routeChecker.isActive('client')}">
                                 <a href="#" ui-sref="clients">
                                     <i class="fa fa-users"></i>
                                     <span>Klienci</span>
                                 </a>
                             </li>
-                            <li>
+                            <li ng-class="{active: routeChecker.isActive('sectors')}">
                                 <a href="#" ui-sref="sectors">
                                     <i class="fa fa-database"></i>
                                     <span>Branże</span>
                                 </a>
                             </li>
-                            <li>
+                            <li ng-class="{active: routeChecker.isActive('users')}">
                                 <a href="#" ui-sref="users">
                                     <i class="fa fa-cogs"></i>
                                     <span>Użytkownicy systemu</span>
@@ -81,11 +81,16 @@
                 <div class="main-content container-fluid">
                     <div class="row">
                         <div class="breadcrumb">
-                            <ul>
-                                <li class="active">
-                                    <span>Lista klientów</span>
-                                </li>
+                            <ul breadcrumbs>
+                                <li ng-repeat="breadcrumb in breadcrumbs" >
+                                    <a ng-class="breadcrumb.class" ui-sref="{{breadcrumb.stateName}}"><span>{{breadcrumb.text}}</span></a>
+                                <li>
                             </ul>
+                            <!--<ul>-->
+                                <!--<li class="active">-->
+                                    <!--<span>Lista klientów</span>-->
+                                <!--</li>-->
+                            <!--</ul>-->
                         </div>
                     </div>
                     <div ui-view=""></div>
@@ -99,6 +104,7 @@
         <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
         <script src="../node_modules/angular-messages/angular-messages.js"></script>
         <script src="../node_modules/angular-i18n/angular-locale_pl-pl.js"></script>
+        <script src="../bower_components/angular-ui-router-breadcrumbs/dist/angular-ui-router-breadcrumbs.js"></script>
         <script src="js/main.js"></script>
         <script src="js/app.js"></script>
         <script src="js/services.js"></script>

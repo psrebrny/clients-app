@@ -4,7 +4,7 @@
 
 (function(){
 
-    var app = angular.module('clientsApp', ['ui.router', 'httpService', 'ngMessages']);
+    var app = angular.module('clientsApp', ['ui.router', 'httpService', 'ngMessages', 'ui.router.breadcrumbs']);
 
     app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
 
@@ -13,24 +13,33 @@
             .state('clients', {
                 url: "/clients",
                 templateUrl: "views/clients-list.html",
-                controller: 'clientsListCtrl'
+                controller: 'clientsListCtrl',
+                breadcrumb: 'Lista Klientów'
             })
             .state('client-details', {
                 url: "/client-details/:clientId",
                 templateUrl: "views/client-details.html",
-                controller: 'clientDetailsCtrl'
+                controller: 'clientDetailsCtrl',
+                breadcrumb: 'Karta Klienta'
             })
             .state('sectors', {
                 url: "/sectors",
                 templateUrl: "views/simple-list.html",
-                controller: 'sectorsCtrl'
+                controller: 'sectorsCtrl',
+                breadcrumb: 'Lista branż'
             })
             .state('users', {
                 url: "/users",
                 templateUrl: "views/simple-list.html",
-                controller: 'usersCtrl'
+                controller: 'usersCtrl',
+                breadcrumb: 'Lista pracowników'
             })
 
+    }]);
+
+    app.controller('mainCtrl', ['$scope','routeChecker', function($scope, routeChecker){
+        //console.log(routeChecker)
+        $scope.routeChecker = routeChecker;
     }]);
 
     app.controller('clientsListCtrl', ['$scope', 'clients', 'users', 'sectors', function($scope, clients, users, sectors){

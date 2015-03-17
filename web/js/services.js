@@ -5,6 +5,18 @@
 
     var app = angular.module('httpService',[]);
 
+    app.factory('routeChecker', ['$state',function($state){
+        var _api = {};
+
+            _api.isActive = function(state){
+                //console.log( $state.current.name.indexOf(state))
+                return ( $state.current.name.indexOf(state) !== -1)
+
+            };
+
+        return _api
+    }]);
+
     app.factory('clients',['$http',function($http){
         var _api = {};
 

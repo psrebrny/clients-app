@@ -19,6 +19,7 @@
   "dependencies": {
     "jquery": "~2.1.3",
     "components-font-awesome": "~4.3.0",
-    "angular-ui-router": "~0.2.13"
+    "angular-ui-router": "~0.2.13",
+    "angular-ui-router-breadcrumbs": "git@github.com:interval-braining/angular-ui-router-breadcrumbs.git#~0.0.2"
   }
 }
